@@ -1,3 +1,6 @@
+using Domain.Validations.Validators.Entities;
+using FluentValidation;
+
 namespace Domain.Entities;
 
 /// <summary>
@@ -58,5 +61,19 @@ public class Order : BaseEntity
         Store = store;
         UserId = userId;
         User = user;
+        
+        Validate();
+    }
+    
+    private void Validate()
+    {
+        var validator = new OrderValidator();
+        var result = validator.Validate(this);
+
+        if (!result.IsValid)
+        {
+            var errors = string.Join(" || ", result.Errors.Select(x => x.ErrorMessage));
+            throw new ValidationException(errors);
+        }
     }
 }

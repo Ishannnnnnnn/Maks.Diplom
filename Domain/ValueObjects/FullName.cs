@@ -1,3 +1,6 @@
+using Domain.Validations.Validators.ValueObjects;
+using FluentValidation;
+
 namespace Domain.ValueObjects;
 
 /// <summary>
@@ -34,5 +37,19 @@ public abstract class FullName
         Name = name;
         Surname = surname;
         Patronymic = patronymic;
+        
+        Validate();
+    }
+    
+    private void Validate()
+    {
+        var validator = new FullNameValidator();
+        var result = validator.Validate(this);
+
+        if (!result.IsValid)
+        {
+            var errors = string.Join(" || ", result.Errors.Select(x => x.ErrorMessage));
+            throw new ValidationException(errors);
+        }
     }
 }

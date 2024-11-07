@@ -1,3 +1,6 @@
+using Domain.Validations.Validators.ValueObjects;
+using FluentValidation;
+
 namespace Domain.ValueObjects;
 
 /// <summary>
@@ -34,5 +37,19 @@ public abstract class Address
         City = city;
         Street = street;
         HouseNumber = houseNumber;
+        
+        Validate();
+    }
+    
+    private void Validate()
+    {
+        var validator = new AddressValidator();
+        var result = validator.Validate(this);
+
+        if (!result.IsValid)
+        {
+            var errors = string.Join(" || ", result.Errors.Select(x => x.ErrorMessage));
+            throw new ValidationException(errors);
+        }
     }
 }

@@ -1,5 +1,7 @@
 using Domain.Primitives;
+using Domain.Validations.Validators.Entities;
 using Domain.ValueObjects;
+using FluentValidation;
 
 namespace Domain.Entities;
 
@@ -53,5 +55,19 @@ public class User : BaseEntity
         Email = email;
         Password = password;
         Role = role;
+        
+        Validate();
+    }
+    
+    private void Validate()
+    {
+        var validator = new UserValidator();
+        var result = validator.Validate(this);
+
+        if (!result.IsValid)
+        {
+            var errors = string.Join(" || ", result.Errors.Select(x => x.ErrorMessage));
+            throw new ValidationException(errors);
+        }
     }
 }

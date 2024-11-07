@@ -1,3 +1,6 @@
+using Domain.Validations.Validators.Entities;
+using FluentValidation;
+
 namespace Domain.Entities;
 
 /// <summary>
@@ -53,5 +56,19 @@ public class InstrumentStore : BaseEntity
         StoreId = storeId;
         Store = store;
         Amount = amount;
+        
+        Validate();
+    }
+    
+    private void Validate()
+    {
+        var validator = new InstrumentStoreValidator();
+        var result = validator.Validate(this);
+
+        if (!result.IsValid)
+        {
+            var errors = string.Join(" || ", result.Errors.Select(x => x.ErrorMessage));
+            throw new ValidationException(errors);
+        }
     }
 }
