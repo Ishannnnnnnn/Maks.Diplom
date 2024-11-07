@@ -6,7 +6,7 @@ namespace Domain.ValueObjects;
 /// <summary>
 /// Адрес
 /// </summary>
-public abstract class Address
+public class Address
 {
     /// <summary>
     /// Город

@@ -71,4 +71,8 @@ public class InstrumentStore : BaseEntity
             throw new ValidationException(errors);
         }
     }
+    
+    public InstrumentStore()
+    {
+    }
 }

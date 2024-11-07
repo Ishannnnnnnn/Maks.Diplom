@@ -28,6 +28,11 @@ public class Instrument : BaseEntity
     /// Список связей InstrumentStore
     /// </summary>
     public ICollection<InstrumentStore> InstrumentStores { get; set; } = new List<InstrumentStore>();
+    
+    /// <summary>
+    /// Список связей OrderInstrument
+    /// </summary>
+    public ICollection<OrderInstrument> OrderInstruments { get; set; } = new List<OrderInstrument>();
 
     /// <summary>
     /// Конструктор
@@ -60,5 +65,9 @@ public class Instrument : BaseEntity
             var errors = string.Join(" || ", result.Errors.Select(x => x.ErrorMessage));
             throw new ValidationException(errors);
         }
+    }
+
+    public Instrument()
+    {
     }
 }

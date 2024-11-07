@@ -79,4 +79,8 @@ public class OrderInstrument : BaseEntity
             throw new ValidationException(errors);
         }
     }
+    
+    public OrderInstrument()
+    {
+    }
 }

@@ -23,6 +23,11 @@ public class Store : BaseEntity
     /// Список связей InstrumentStore
     /// </summary>
     public ICollection<InstrumentStore> InstrumentStores { get; set; } = new List<InstrumentStore>();
+    
+    /// <summary>
+    /// Список заказов
+    /// </summary>
+    public ICollection<Order> Orders { get; set; } = new List<Order>();
 
     /// <summary>
     /// Конструктор
@@ -52,5 +57,9 @@ public class Store : BaseEntity
             var errors = string.Join(" || ", result.Errors.Select(x => x.ErrorMessage));
             throw new ValidationException(errors);
         }
+    }
+    
+    public Store()
+    {
     }
 }

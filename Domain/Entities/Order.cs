@@ -76,4 +76,8 @@ public class Order : BaseEntity
             throw new ValidationException(errors);
         }
     }
+    
+    public Order()
+    {
+    }
 }

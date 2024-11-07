@@ -6,7 +6,7 @@ namespace Domain.ValueObjects;
 /// <summary>
 /// Полное имя
 /// </summary>
-public abstract class FullName
+public class FullName
 {
     /// <summary>
     /// Имя

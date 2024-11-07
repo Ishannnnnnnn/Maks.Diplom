@@ -70,4 +70,8 @@ public class User : BaseEntity
             throw new ValidationException(errors);
         }
     }
+    
+    public User()
+    {
+    }
 }
