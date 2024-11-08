@@ -10,5 +10,6 @@ public enum Category
     GuitarPick = 2,
     Drums = 3,
     Wind = 4,
-    Case = 5
+    Case = 5,
+    Amps = 6
 }

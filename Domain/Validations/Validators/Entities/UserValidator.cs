@@ -15,6 +15,12 @@ public class UserValidator : AbstractValidator<User>
             .NotNull().WithMessage(ValidationMessages.NullError)
             .NotEmpty().WithMessage(ValidationMessages.EmptyError);
         
+        RuleFor(d => d.Nickname)
+            .NotNull().WithMessage(ValidationMessages.NullError)
+            .NotEmpty().WithMessage(ValidationMessages.EmptyError)
+            .MinimumLength(2).WithMessage(ValidationMessages.MinimumLengthError)
+            .MaximumLength(30).WithMessage(ValidationMessages.MaximumLengthError);
+        
         RuleFor(d => d.Email)
             .NotNull().WithMessage(ValidationMessages.NullError)
             .NotEmpty().WithMessage(ValidationMessages.EmptyError)
@@ -27,5 +33,14 @@ public class UserValidator : AbstractValidator<User>
         
         RuleFor(d => d.Role)
             .NotEqual(Role.None).WithMessage(ValidationMessages.EnumError);
+        
+        RuleFor(d => d.Balance)
+            .GreaterThanOrEqualTo(0).WithMessage(ValidationMessages.NegativeOrZeroNumberError);
+        
+        RuleFor(d => d.Purchases)
+            .GreaterThanOrEqualTo(0).WithMessage(ValidationMessages.NegativeOrZeroNumberError);
+        
+        RuleFor(d => d.MoneySpend)
+            .GreaterThanOrEqualTo(0).WithMessage(ValidationMessages.NegativeOrZeroNumberError);
     }
 }

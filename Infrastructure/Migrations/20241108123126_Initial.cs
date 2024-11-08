@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Migration07112024 : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:category", "none,electro_guitar,guitar_pick,drums,wind,case")
+                .Annotation("Npgsql:Enum:category", "none,electro_guitar,guitar_pick,drums,wind,case,amps")
                 .Annotation("Npgsql:Enum:role", "none,user,owner");
 
             migrationBuilder.CreateTable(
@@ -52,9 +52,15 @@ namespace Infrastructure.Migrations
                     name = table.Column<string>(type: "text", nullable: false),
                     surname = table.Column<string>(type: "text", nullable: false),
                     patronymic = table.Column<string>(type: "text", nullable: false),
+                    nickname = table.Column<string>(type: "text", nullable: false),
                     email = table.Column<string>(type: "text", nullable: false),
                     password = table.Column<string>(type: "text", nullable: false),
-                    role = table.Column<int>(type: "integer", nullable: false, defaultValue: 0)
+                    role = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    registration_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    avatar_url = table.Column<string>(type: "text", nullable: false),
+                    balance = table.Column<decimal>(type: "numeric", nullable: false),
+                    purchases = table.Column<int>(type: "integer", nullable: false),
+                    money_spend = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {

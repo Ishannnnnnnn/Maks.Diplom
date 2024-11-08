@@ -29,7 +29,7 @@ public class FullName
     /// <param name="name">Имя.</param>
     /// <param name="surname">Фамилия.</param>
     /// <param name="patronymic">Отчество.</param>
-    protected FullName(
+    public FullName(
         string name,
         string surname,
         string patronymic)

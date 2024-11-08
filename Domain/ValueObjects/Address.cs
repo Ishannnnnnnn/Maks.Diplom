@@ -29,7 +29,7 @@ public class Address
     /// <param name="city">Город.</param>
     /// <param name="street">Улица.</param>
     /// <param name="houseNumber">Номер дома.</param>
-    protected Address(
+    public Address(
         string city,
         string street,
         int houseNumber)

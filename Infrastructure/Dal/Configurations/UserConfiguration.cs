@@ -32,6 +32,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 .HasColumnName("patronymic");
         });
         
+        builder.Property(p => p.Nickname)
+            .IsRequired()
+            .HasColumnName("nickname");
+        
         builder.Property(p => p.Email)
             .IsRequired()
             .HasColumnName("email");
@@ -44,6 +48,28 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired()
             .HasDefaultValue(Role.None)
             .HasColumnName("role");
+        
+        builder.Property(p => p.RegistrationDate)
+            .IsRequired()
+            .HasColumnName("registration_date")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .HasColumnType("timestamp without time zone");
+        
+        builder.Property(p => p.Balance)
+            .IsRequired()
+            .HasColumnName("balance");
+        
+        builder.Property(p => p.Purchases)
+            .IsRequired()
+            .HasColumnName("purchases");
+        
+        builder.Property(p => p.MoneySpend)
+            .IsRequired()
+            .HasColumnName("money_spend");
+        
+        builder.Property(p => p.AvatarUrl)
+            .IsRequired()
+            .HasColumnName("avatar_url");
         
         builder.HasMany(p => p.Orders)
             .WithOne(p => p.User)
