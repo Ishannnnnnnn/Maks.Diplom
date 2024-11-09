@@ -1,4 +1,4 @@
-﻿using Application.Dto.User;
+﻿using Application.Dto.UserDto;
 using Application.Dto.ValueObjects;
 using Application.Mapping;
 using Application.Services;
@@ -14,26 +14,42 @@ namespace MusicStoreFront.Forms
     /// </summary>
     public partial class ProfileUpdateForm : Form
     {
-        private readonly string _jwt;
         private readonly UserService _userService;
+        private readonly OrderService _orderService;
+        private readonly InstrumentService _instrumentService;
+        private readonly StoreService _storeService;
+        
+        private readonly OrderInstrumentService _orderInstrumentService;
+        
         private readonly CancellationToken _cancellationToken;
-        private User? _currentUser;
         
         private readonly Guid _newFileId;
         private readonly IMapper _mapper;
-        
+        private readonly string _jwt;
         private string _avatarUrl;
         private string _avatarFilePath;
+        private User? _currentUser;
         
         public ProfileUpdateForm(
             string jwt,
             UserService userService,
+            OrderService orderService,
+            OrderInstrumentService orderInstrumentService,
+            InstrumentService instrumentService,
+            StoreService storeService,
             CancellationToken cancellationToken)
         {
-            _jwt = jwt;
             _userService = userService;
+            _orderService = orderService;
+            _instrumentService = instrumentService;
+            _storeService = storeService;
+            
+            _orderInstrumentService = orderInstrumentService;
+            
             _cancellationToken = cancellationToken;
+            
             _newFileId = Guid.NewGuid();
+            _jwt = jwt;
             GetCurrentUser(jwt, _cancellationToken);
             
             var config = new MapperConfiguration(cfg =>
@@ -77,7 +93,14 @@ namespace MusicStoreFront.Forms
                     await _userService.UpdateAsync(updatedUser, fileStream, fileName, contentType, _cancellationToken);
                     
                     MessageBox.Show(@"Обновление профиля успешно");
-                    var profileForm = new ProfileForm(_jwt, _userService, _cancellationToken);
+                    var profileForm = new ProfileForm(
+                        _jwt,
+                        _userService,
+                        _orderService,
+                        _orderInstrumentService,
+                        _instrumentService,
+                        _storeService,
+                        _cancellationToken);
                     profileForm.Show();
                     Hide();
                 }
@@ -90,16 +113,6 @@ namespace MusicStoreFront.Forms
             {
                 MessageBox.Show(ex.Message, @"Ошибка обновления профиля", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        /// <summary>
-        /// Возвращение на страницу профиля
-        /// </summary>
-        private void ReturnButton_Click(object sender, EventArgs e)
-        {
-            var profileForm = new ProfileForm(_jwt, _userService, _cancellationToken);
-            profileForm.Show();
-            Hide();
         }
 
         /// <summary>

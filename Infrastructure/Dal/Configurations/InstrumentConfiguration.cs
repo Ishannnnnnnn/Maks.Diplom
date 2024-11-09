@@ -30,6 +30,10 @@ public class InstrumentConfiguration : IEntityTypeConfiguration<Instrument>
             .IsRequired()
             .HasColumnName("price");
         
+        builder.Property(p => p.ImageUrl)
+            .IsRequired()
+            .HasColumnName("image_url");
+        
         builder.HasMany(p => p.OrderInstruments)
             .WithOne(p => p.Instrument)
             .HasForeignKey(p => p.InstrumentId)

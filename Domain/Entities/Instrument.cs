@@ -25,6 +25,11 @@ public class Instrument : BaseEntity
     public decimal Price { get; set; }
     
     /// <summary>
+    /// Картинка
+    /// </summary>
+    public string ImageUrl { get; set; }
+    
+    /// <summary>
     /// Список связей InstrumentStore
     /// </summary>
     public ICollection<InstrumentStore> InstrumentStores { get; set; } = new List<InstrumentStore>();
@@ -53,6 +58,30 @@ public class Instrument : BaseEntity
         Price = price;
         
         Validate();
+    }
+
+    /// <summary>
+    /// Обновление
+    /// </summary>
+    /// <param name="name">Название.</param>
+    /// <param name="category">Категория.</param>
+    /// <param name="price">Цена.</param>
+    /// <param name="newImageUrl">Новое изображение.</param>
+    /// <returns>Обновленный Instrument.</returns>
+    public Instrument Update(
+        string name,
+        Category category,
+        decimal price,
+        string newImageUrl)
+    {
+        Name = name;
+        Category = category;
+        Price = price;
+        ImageUrl = newImageUrl;
+        
+        Validate();
+        
+        return this;
     }
     
     private void Validate()

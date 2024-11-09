@@ -15,21 +15,6 @@ public interface IRepository<TEntity> where TEntity : BaseEntity
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Добавленная сущность.</returns>
     public Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken);
-    
-    /// <summary>
-    /// Обновление
-    /// </summary>
-    /// <param name="entity">Сущность на обновление.</param>
-    /// <param name="cancellationToken">Токен отмены.</param>
-    /// <returns>Обновленная сущность.</returns>
-    public Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Удаление
-    /// </summary>
-    /// <param name="entity">Сущность на удаление.</param>
-    /// <param name="cancellationToken">Токен отмены.</param>
-    public Task DeleteAsync(TEntity entity, CancellationToken cancellationToken);
 
     /// <summary>
     /// Получение по идентификатору

@@ -47,6 +47,22 @@ public class Store : BaseEntity
         Validate();
     }
     
+    /// <summary>
+    /// Обновление
+    /// </summary>
+    /// <param name="address">Адрес.</param>
+    /// <param name="phone">Номер телефона.</param>
+    /// <returns>Обновленный Store.</returns>
+    public Store Update(Address address, string phone)
+    {
+        Address = address;
+        Phone = phone;
+        
+        Validate();
+        
+        return this;
+    }
+    
     private void Validate()
     {
         var validator = new StoreValidator();

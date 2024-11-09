@@ -6,7 +6,7 @@ namespace Domain.Primitives;
 public enum Category
 {
     None = 0,
-    ElectroGuitar = 1,
+    Guitar = 1,
     GuitarPick = 2,
     Drums = 3,
     Wind = 4,

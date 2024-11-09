@@ -1,4 +1,4 @@
-﻿using Application.Dto.User;
+﻿using Application.Dto.UserDto;
 using Application.Dto.ValueObjects;
 using Application.Mapping;
 using Application.Services;
@@ -15,18 +15,34 @@ namespace MusicStoreFront.Forms
     public partial class RegisterForm : Form
     {
         private readonly UserService _userService;
-        private readonly CancellationToken _cancellationToken;
-        private readonly Guid _newFileId;
+        private readonly OrderService _orderService;
+        private readonly InstrumentService _instrumentService;
+        private readonly StoreService _storeService;
+        
+        private readonly OrderInstrumentService _orderInstrumentService;
+        
         private readonly IMapper _mapper;
+        private readonly CancellationToken _cancellationToken;
         
         private string _avatarUrl;
         private string _avatarFilePath;
+        private readonly Guid _newFileId;
 
         public RegisterForm(
             UserService userService,
+            OrderService orderService,
+            OrderInstrumentService orderInstrumentService,
+            InstrumentService instrumentService,
+            StoreService storeService,
             CancellationToken cancellationToken)
         {
             _userService = userService;
+            _orderService = orderService;
+            _instrumentService = instrumentService;
+            _storeService = storeService;
+            
+            _orderInstrumentService = orderInstrumentService;
+            
             _cancellationToken = cancellationToken;
             _newFileId = Guid.NewGuid();
             
@@ -70,7 +86,13 @@ namespace MusicStoreFront.Forms
                     await _userService.AddAsync(newUser, fileStream, fileName, contentType, _cancellationToken);
                     
                     MessageBox.Show(@"Регистрация успешна");
-                    var loginForm = new LoginForm(_userService, _cancellationToken);
+                    var loginForm = new LoginForm(
+                        _userService,
+                        _orderService,
+                        _orderInstrumentService,
+                        _instrumentService,
+                        _storeService,
+                        _cancellationToken);
                     loginForm.Show();
                     Hide();
                 }
@@ -106,7 +128,13 @@ namespace MusicStoreFront.Forms
         /// </summary>
         private void ReturnButton_Click(object sender, EventArgs e)
         {
-            var loginForm = new LoginForm(_userService, _cancellationToken);
+            var loginForm = new LoginForm(
+                _userService,
+                _orderService,
+                _orderInstrumentService,
+                _instrumentService,
+                _storeService,
+                _cancellationToken);
             loginForm.Show();
             Hide();
         }

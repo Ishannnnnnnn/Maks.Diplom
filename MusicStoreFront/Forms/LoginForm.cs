@@ -1,4 +1,4 @@
-using Application.Dto.User.Auth;
+using Application.Dto.UserDto.Auth;
 using Application.Services;
 
 namespace MusicStoreFront.Forms;
@@ -8,14 +8,30 @@ namespace MusicStoreFront.Forms;
 /// </summary>
 public partial class LoginForm : Form
 {
-    private readonly CancellationToken _cancellationToken;
     private readonly UserService _userService;
+    private readonly OrderService _orderService;
+    private readonly InstrumentService _instrumentService;
+    private readonly StoreService _storeService;
+    
+    private readonly OrderInstrumentService _orderInstrumentService;
+    
+    private readonly CancellationToken _cancellationToken;
     
     public LoginForm(
         UserService userService,
+        OrderService orderService,
+        OrderInstrumentService orderInstrumentService,
+        InstrumentService instrumentService,
+        StoreService storeService,
         CancellationToken cancellationToken)
     {
         _userService = userService;
+        _orderService = orderService;
+        _instrumentService = instrumentService;
+        _storeService = storeService;
+        
+        _orderInstrumentService = orderInstrumentService;
+        
         _cancellationToken = cancellationToken;
         
         InitializeComponent();
@@ -37,7 +53,14 @@ public partial class LoginForm : Form
             MessageBox.Show(@"Неверный логин или пароль");
         else
         {
-            var homeForm = new HomeForm(user.Token, _userService, _cancellationToken);
+            var homeForm = new HomeForm(
+                user.Token,
+                _userService,
+                _orderService,
+                _orderInstrumentService,
+                _instrumentService,
+                _storeService,
+                _cancellationToken);
             homeForm.Show();
             Hide();
         }
@@ -48,7 +71,13 @@ public partial class LoginForm : Form
     /// </summary>
     private void ToRegisterButton_Click(object sender, EventArgs e)
     {
-        var registerForm = new RegisterForm( _userService, _cancellationToken);
+        var registerForm = new RegisterForm(
+            _userService,
+            _orderService,
+            _orderInstrumentService,
+            _instrumentService,
+            _storeService,
+            _cancellationToken);
         registerForm.Show();
         Hide();
     }

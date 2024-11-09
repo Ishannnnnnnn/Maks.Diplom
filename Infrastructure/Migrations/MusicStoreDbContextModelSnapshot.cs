@@ -20,7 +20,7 @@ namespace Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "category", new[] { "none", "electro_guitar", "guitar_pick", "drums", "wind", "case", "amps" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "category", new[] { "none", "guitar", "guitar_pick", "drums", "wind", "case", "amps" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "role", new[] { "none", "user", "owner" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -36,6 +36,11 @@ namespace Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasDefaultValue(0)
                         .HasColumnName("category");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("image_url");
 
                     b.Property<string>("Name")
                         .IsRequired()

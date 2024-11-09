@@ -39,7 +39,6 @@
             label5 = new Label();
             Password = new TextBox();
             Email = new TextBox();
-            ReturnButton = new Button();
             AvatarFileLabel = new Label();
             SelectAvatarButton = new Button();
             label1 = new Label();
@@ -136,16 +135,6 @@
             Email.Size = new Size(563, 27);
             Email.TabIndex = 82;
             // 
-            // ReturnButton
-            // 
-            ReturnButton.Location = new Point(10, 404);
-            ReturnButton.Name = "ReturnButton";
-            ReturnButton.Size = new Size(563, 31);
-            ReturnButton.TabIndex = 92;
-            ReturnButton.Text = "Назад";
-            ReturnButton.UseVisualStyleBackColor = true;
-            ReturnButton.Click += ReturnButton_Click;
-            // 
             // AvatarFileLabel
             // 
             AvatarFileLabel.AutoSize = true;
@@ -185,12 +174,11 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(585, 443);
+            ClientSize = new Size(585, 406);
             Controls.Add(label1);
             Controls.Add(Nickname);
             Controls.Add(AvatarFileLabel);
             Controls.Add(SelectAvatarButton);
-            Controls.Add(ReturnButton);
             Controls.Add(UserName);
             Controls.Add(Patronymic);
             Controls.Add(Surname);
@@ -221,7 +209,6 @@
         private Label label5;
         private TextBox Password;
         private TextBox Email;
-        private Button ReturnButton;
         private Label AvatarFileLabel;
         private Button SelectAvatarButton;
         private Label label1;
