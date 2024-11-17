@@ -31,6 +31,7 @@ namespace MusicStoreFront
             var storeService = scope.ServiceProvider.GetRequiredService<StoreService>();
             
             var orderInstrumentService = scope.ServiceProvider.GetRequiredService<OrderInstrumentService>();
+            var instrumentStoreService = scope.ServiceProvider.GetRequiredService<InstrumentStoreService>();
 
             CancellationToken cancellationToken = new CancellationToken();
                     
@@ -38,6 +39,7 @@ namespace MusicStoreFront
                 userService,
                 orderService,
                 orderInstrumentService,
+                instrumentStoreService,
                 instrumentService,
                 storeService,
                 cancellationToken));
@@ -46,7 +48,8 @@ namespace MusicStoreFront
         private static void ConfigureServices(ServiceCollection services)
         {
             services.AddDbContext<MusicStoreDbContext>(options =>
-                options.UseNpgsql("Host=localhost;Port=5432;Database=MusicStore;Username=postgres;Password=7733"));
+                options.UseNpgsql("Host=localhost;Port=5432;Database=MusicStore;Username=postgres;Password=7733"),
+                ServiceLifetime.Transient);
 
             services.AddAutoMapper(typeof(UserMappingProfile));
             services.AddAutoMapper(typeof(InstrumentMappingProfile));
@@ -54,24 +57,27 @@ namespace MusicStoreFront
             services.AddAutoMapper(typeof(StoreMappingProfile));
             
             services.AddAutoMapper(typeof(OrderInstrumentMappingProfile));
+            services.AddAutoMapper(typeof(InstrumentStoreMappingProfile));
             
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<IInstrumentRepository, InstrumentRepository>();
-            services.AddScoped<IStoreRepository, StoreRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IInstrumentRepository, InstrumentRepository>();
+            services.AddTransient<IStoreRepository, StoreRepository>();
             
-            services.AddScoped<IOrderInstrumentRepository, OrderInstrumentRepository>();
+            services.AddTransient<IOrderInstrumentRepository, OrderInstrumentRepository>();
+            services.AddTransient<IInstrumentStoreRepository, InstrumentStoreRepository>();
             
-            services.AddScoped<UserService>();
-            services.AddScoped<OrderService>();
-            services.AddScoped<InstrumentService>();
-            services.AddScoped<StoreService>();
+            services.AddTransient<UserService>();
+            services.AddTransient<OrderService>();
+            services.AddTransient<InstrumentService>();
+            services.AddTransient<StoreService>();
             
-            services.AddScoped<OrderInstrumentService>();
-            services.AddScoped<GoogleCloudService>();
+            services.AddTransient<OrderInstrumentService>();
+            services.AddTransient<InstrumentStoreService>();
+            services.AddTransient<GoogleCloudService>();
             
             var secretKey = "MISTRESS OF THE BLEEDING SORROW IS THE BEST DISSECTION SONG";
-            services.AddScoped<UserService>(provider =>
+            services.AddTransient<UserService>(provider =>
             {
                 var userRepository = provider.GetRequiredService<IUserRepository>();
                 var mapper = provider.GetRequiredService<IMapper>();
@@ -79,14 +85,14 @@ namespace MusicStoreFront
                 return new UserService(userRepository, mapper, secretKey, googleCloud);
             });
             
-            services.AddScoped<OrderService>(provider =>
+            services.AddTransient<OrderService>(provider =>
             {
                 var orderRepository = provider.GetRequiredService<IOrderRepository>();
                 var mapper = provider.GetRequiredService<IMapper>();
                 return new OrderService(orderRepository, mapper);
             });
             
-            services.AddScoped<InstrumentService>(provider =>
+            services.AddTransient<InstrumentService>(provider =>
             {
                 var instrumentRepository = provider.GetRequiredService<IInstrumentRepository>();
                 var mapper = provider.GetRequiredService<IMapper>();
@@ -94,18 +100,25 @@ namespace MusicStoreFront
                 return new InstrumentService(instrumentRepository, mapper, googleCloud);
             });
             
-            services.AddScoped<StoreService>(provider =>
+            services.AddTransient<StoreService>(provider =>
             {
                 var storeRepository = provider.GetRequiredService<IStoreRepository>();
                 var mapper = provider.GetRequiredService<IMapper>();
                 return new StoreService(storeRepository, mapper);
             });
             
-            services.AddScoped<OrderInstrumentService>(provider =>
+            services.AddTransient<OrderInstrumentService>(provider =>
             {
                 var orderInstrumentRepository = provider.GetRequiredService<IOrderInstrumentRepository>();
                 var mapper = provider.GetRequiredService<IMapper>();
                 return new OrderInstrumentService(orderInstrumentRepository, mapper);
+            });
+            
+            services.AddTransient<InstrumentStoreService>(provider =>
+            {
+                var instrumentStoreRepository = provider.GetRequiredService<IInstrumentStoreRepository>();
+                var mapper = provider.GetRequiredService<IMapper>();
+                return new InstrumentStoreService(instrumentStoreRepository, mapper);
             });
         }
     }

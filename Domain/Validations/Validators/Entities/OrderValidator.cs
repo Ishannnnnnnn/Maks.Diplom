@@ -18,16 +18,8 @@ public class OrderValidator : AbstractValidator<Order>
         RuleFor(d => d.StoreId)
             .NotNull().WithMessage(ValidationMessages.NullError)
             .NotEmpty().WithMessage(ValidationMessages.EmptyError);
-        
-        RuleFor(d => d.Store)
-            .NotNull().WithMessage(ValidationMessages.NullError)
-            .NotEmpty().WithMessage(ValidationMessages.EmptyError);
 
         RuleFor(d => d.UserId)
-            .NotNull().WithMessage(ValidationMessages.NullError)
-            .NotEmpty().WithMessage(ValidationMessages.EmptyError);
-        
-        RuleFor(d => d.User)
             .NotNull().WithMessage(ValidationMessages.NullError)
             .NotEmpty().WithMessage(ValidationMessages.EmptyError);
     }

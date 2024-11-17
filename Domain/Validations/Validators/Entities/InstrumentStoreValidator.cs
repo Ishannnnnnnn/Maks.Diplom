@@ -14,15 +14,7 @@ public class InstrumentStoreValidator : AbstractValidator<InstrumentStore>
             .NotNull().WithMessage(ValidationMessages.NullError)
             .NotEmpty().WithMessage(ValidationMessages.EmptyError);
         
-        RuleFor(d => d.Instrument)
-            .NotNull().WithMessage(ValidationMessages.NullError)
-            .NotEmpty().WithMessage(ValidationMessages.EmptyError);
-        
         RuleFor(d => d.StoreId)
-            .NotNull().WithMessage(ValidationMessages.NullError)
-            .NotEmpty().WithMessage(ValidationMessages.EmptyError);
-        
-        RuleFor(d => d.Store)
             .NotNull().WithMessage(ValidationMessages.NullError)
             .NotEmpty().WithMessage(ValidationMessages.EmptyError);
         

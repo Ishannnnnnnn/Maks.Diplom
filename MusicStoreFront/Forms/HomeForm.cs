@@ -14,6 +14,7 @@ namespace MusicStoreFront.Forms
         private readonly StoreService _storeService;
         
         private readonly OrderInstrumentService _orderInstrumentService;
+        private readonly InstrumentStoreService _instrumentStoreService;
 
         private readonly CancellationToken _cancellationToken;
 
@@ -25,6 +26,7 @@ namespace MusicStoreFront.Forms
             UserService userService,
             OrderService orderService,
             OrderInstrumentService orderInstrumentService,
+            InstrumentStoreService instrumentStoreService,
             InstrumentService instrumentService,
             StoreService storeService,
             CancellationToken cancellationToken)
@@ -35,11 +37,13 @@ namespace MusicStoreFront.Forms
             _storeService = storeService;
             
             _orderInstrumentService = orderInstrumentService;
+            _instrumentStoreService = instrumentStoreService;
 
             _cancellationToken = cancellationToken;
 
             _jwt = jwt;
             GetCurrentUser(jwt, _cancellationToken);
+            GetTopUsers(_cancellationToken);
 
             InitializeComponent();
         }
@@ -56,6 +60,28 @@ namespace MusicStoreFront.Forms
         }
 
         /// <summary>
+        /// Получение топа пользователей
+        /// </summary>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        private async void GetTopUsers(CancellationToken cancellationToken)
+        {
+            var topUsers = await _userService.GetAllAsync(cancellationToken);
+            
+            var sortedUsers = topUsers
+                .OrderByDescending(user => user.MoneySpend)
+                .Select(user => new
+                {
+                    Nickname = user.Nickname,
+                    Email = user.Email,
+                    Purchases = user.Purchases,
+                    MoneySpend = user.MoneySpend
+                })
+                .ToList();
+            
+            UserTopTable.DataSource = sortedUsers;
+        }
+
+        /// <summary>
         /// Переход на страницу магазинов
         /// </summary>
         private void магазиныToolStripMenuItem_Click(object sender, EventArgs e)
@@ -65,6 +91,7 @@ namespace MusicStoreFront.Forms
                 _userService,
                 _orderService,
                 _orderInstrumentService,
+                _instrumentStoreService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -82,6 +109,7 @@ namespace MusicStoreFront.Forms
                 _userService,
                 _orderService,
                 _orderInstrumentService,
+                _instrumentStoreService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -99,6 +127,7 @@ namespace MusicStoreFront.Forms
                 _userService,
                 _orderService,
                 _orderInstrumentService,
+                _instrumentStoreService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -116,6 +145,7 @@ namespace MusicStoreFront.Forms
                 _userService,
                 _orderService,
                 _orderInstrumentService,
+                _instrumentStoreService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -131,6 +161,7 @@ namespace MusicStoreFront.Forms
                 _userService,
                 _orderService,
                 _orderInstrumentService,
+                _instrumentStoreService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);

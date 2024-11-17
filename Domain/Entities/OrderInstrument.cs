@@ -43,25 +43,19 @@ public class OrderInstrument : BaseEntity
     /// </summary>
     /// <param name="id">Идентификатор.</param>
     /// <param name="orderId">Идентификатор заказа.</param>
-    /// <param name="order">Заказ.</param>
     /// <param name="instrumentId">Идентификатор инструмента.</param>
-    /// <param name="instrument">Инструмент.</param>
     /// <param name="amount">Кол-во инструментов в заказе.</param>
     /// <param name="price">Общая цена.</param>
     public OrderInstrument(
         Guid id,
         Guid orderId,
-        Order order,
         Guid instrumentId,
-        Instrument instrument,
         int amount,
         decimal price)
     {
         SetId(id);
         OrderId = orderId;
-        Order = order;
         InstrumentId = instrumentId;
-        Instrument = instrument;
         Amount = amount;
         Price = price;
         

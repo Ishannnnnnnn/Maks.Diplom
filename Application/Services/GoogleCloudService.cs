@@ -12,7 +12,7 @@ public class GoogleCloudService
 
     public GoogleCloudService()
     {
-        var credentialsPath = "C:\\Users\\vantu\\OneDrive\\Рабочий стол\\Fanfic\\fanficsitecloudstorage-d78114e7ac89.json";
+        var credentialsPath = "C:\\Users\\vantu\\Desktop\\Fanfic\\fanficsitecloudstorage-795b5b0f6e48.json";
         _bucketName = "fanfic-site-bucket";
         Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", credentialsPath);
         _storageClient = StorageClient.Create();

@@ -18,9 +18,7 @@ public class OrderMappingProfile : Profile
             {
                 Id = Guid.NewGuid(),
                 StoreId = dto.StoreId,
-                Store = dto.Store,
                 UserId = dto.UserId,
-                User = dto.User
             });
 
         CreateMap<Order, GetByIdOrderResponse>();

@@ -13,19 +13,21 @@ namespace MusicStoreFront.Forms
         private readonly OrderService _orderService;
         private readonly InstrumentService _instrumentService;
         private readonly StoreService _storeService;
-        
+
         private readonly OrderInstrumentService _orderInstrumentService;
-        
+        private readonly InstrumentStoreService _instrumentStoreService;
+
         private readonly CancellationToken _cancellationToken;
-        
+
         private User? _currentUser;
         private readonly string _jwt;
-        
+
         public StoreListForm(
             string jwt,
             UserService userService,
             OrderService orderService,
             OrderInstrumentService orderInstrumentService,
+            InstrumentStoreService instrumentStoreService,
             InstrumentService instrumentService,
             StoreService storeService,
             CancellationToken cancellationToken)
@@ -35,20 +37,21 @@ namespace MusicStoreFront.Forms
             _orderService = orderService;
             _instrumentService = instrumentService;
             _storeService = storeService;
-            
+
             _orderInstrumentService = orderInstrumentService;
+            _instrumentStoreService = instrumentStoreService;
 
             _cancellationToken = cancellationToken;
-            
+
             InitializeComponent();
             InitializeFormAsync();
         }
-        
+
         private async Task InitializeFormAsync()
         {
             await GetCurrentUser(_jwt, _cancellationToken);
             await LoadStores(_cancellationToken);
-            
+
             if (_currentUser?.Role == Role.Owner)
             {
                 AddStoreAdminButton.Visible = true;
@@ -60,7 +63,7 @@ namespace MusicStoreFront.Forms
                 DeleteStoreAdminButton.Visible = false;
             }
         }
-        
+
         /// <summary>
         /// Загрузка всех магазинов
         /// </summary>
@@ -69,7 +72,7 @@ namespace MusicStoreFront.Forms
             var storesResponse = await _storeService.GetAllAsync(cancellationToken);
             var storesData = storesResponse.Select(store => new
             {
-                Id = store.Id,
+                StoreId = store.Id,
                 City = store.Address.City,
                 Street = store.Address.Street,
                 HouseNumber = store.Address.HouseNumber,
@@ -77,6 +80,29 @@ namespace MusicStoreFront.Forms
             }).ToList();
 
             StoresTable.DataSource = storesData;
+        }
+        
+        /// <summary>
+        /// Переход в магазин
+        /// </summary>
+        private void StoresTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var selectedRow = StoresTable.Rows[e.RowIndex];
+            var storeId = (Guid)selectedRow.Cells["StoreId"].Value;
+
+            var storeForm = new StoreForm(
+                _jwt, 
+                _userService,
+                _orderService,
+                _orderInstrumentService,
+                _instrumentStoreService,
+                _instrumentService,
+                _storeService,
+                storeId,
+                _cancellationToken);
+            storeForm.ShowDialog();
         }
 
         /// <summary>
@@ -89,6 +115,7 @@ namespace MusicStoreFront.Forms
                 _userService,
                 _orderService,
                 _orderInstrumentService,
+                _instrumentStoreService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -106,6 +133,7 @@ namespace MusicStoreFront.Forms
                 _userService,
                 _orderService,
                 _orderInstrumentService,
+                _instrumentStoreService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -123,6 +151,7 @@ namespace MusicStoreFront.Forms
                 _userService,
                 _orderService,
                 _orderInstrumentService,
+                _instrumentStoreService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -140,6 +169,7 @@ namespace MusicStoreFront.Forms
                 _userService,
                 _orderService,
                 _orderInstrumentService,
+                _instrumentStoreService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -155,6 +185,7 @@ namespace MusicStoreFront.Forms
                 _userService,
                 _orderService,
                 _orderInstrumentService,
+                _instrumentStoreService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -177,7 +208,7 @@ namespace MusicStoreFront.Forms
         {
 
         }
-        
+
         /// <summary>
         /// Получение текущего пользователя по токену
         /// </summary>

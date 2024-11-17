@@ -14,7 +14,6 @@ public class MusicStoreDbContext : DbContext
     public DbSet<Order> Orders { get; init; }
     public DbSet<Store> Stores { get; init; }
     public DbSet<Instrument> Instruments { get; init; }
-    
     public DbSet<InstrumentStore> InstrumentStores { get; init; }
     public DbSet<OrderInstrument> OrderInstruments { get; init; }
     

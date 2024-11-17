@@ -14,6 +14,7 @@ public partial class LoginForm : Form
     private readonly StoreService _storeService;
     
     private readonly OrderInstrumentService _orderInstrumentService;
+    private readonly InstrumentStoreService _instrumentStoreService;
     
     private readonly CancellationToken _cancellationToken;
     
@@ -21,6 +22,7 @@ public partial class LoginForm : Form
         UserService userService,
         OrderService orderService,
         OrderInstrumentService orderInstrumentService,
+        InstrumentStoreService instrumentStoreService,
         InstrumentService instrumentService,
         StoreService storeService,
         CancellationToken cancellationToken)
@@ -31,6 +33,7 @@ public partial class LoginForm : Form
         _storeService = storeService;
         
         _orderInstrumentService = orderInstrumentService;
+        _instrumentStoreService = instrumentStoreService;
         
         _cancellationToken = cancellationToken;
         
@@ -58,6 +61,7 @@ public partial class LoginForm : Form
                 _userService,
                 _orderService,
                 _orderInstrumentService,
+                _instrumentStoreService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -75,6 +79,7 @@ public partial class LoginForm : Form
             _userService,
             _orderService,
             _orderInstrumentService,
+            _instrumentStoreService,
             _instrumentService,
             _storeService,
             _cancellationToken);

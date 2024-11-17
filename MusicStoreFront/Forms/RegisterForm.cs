@@ -20,6 +20,7 @@ namespace MusicStoreFront.Forms
         private readonly StoreService _storeService;
         
         private readonly OrderInstrumentService _orderInstrumentService;
+        private readonly InstrumentStoreService _instrumentStoreService;
         
         private readonly IMapper _mapper;
         private readonly CancellationToken _cancellationToken;
@@ -32,6 +33,7 @@ namespace MusicStoreFront.Forms
             UserService userService,
             OrderService orderService,
             OrderInstrumentService orderInstrumentService,
+            InstrumentStoreService instrumentStoreService,
             InstrumentService instrumentService,
             StoreService storeService,
             CancellationToken cancellationToken)
@@ -42,6 +44,7 @@ namespace MusicStoreFront.Forms
             _storeService = storeService;
             
             _orderInstrumentService = orderInstrumentService;
+            _instrumentStoreService = instrumentStoreService;
             
             _cancellationToken = cancellationToken;
             _newFileId = Guid.NewGuid();
@@ -90,6 +93,7 @@ namespace MusicStoreFront.Forms
                         _userService,
                         _orderService,
                         _orderInstrumentService,
+                        _instrumentStoreService,
                         _instrumentService,
                         _storeService,
                         _cancellationToken);
@@ -132,6 +136,7 @@ namespace MusicStoreFront.Forms
                 _userService,
                 _orderService,
                 _orderInstrumentService,
+                _instrumentStoreService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);

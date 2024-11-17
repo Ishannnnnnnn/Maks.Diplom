@@ -5,4 +5,8 @@ namespace Application.Dto.OrderDto;
 /// </summary>
 public class AddOrderResponse : BaseOrderDto
 {
+    /// <summary>
+    /// Идентификатор
+    /// </summary>
+    public Guid Id { get; init; }
 }

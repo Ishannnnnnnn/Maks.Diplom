@@ -160,6 +160,30 @@ public class UserService
     }
 
     /// <summary>
+    /// Обновление баланса пользователя
+    /// </summary>
+    /// <param name="userId">Идентификатор пользователя.</param>
+    /// <param name="updateValueBalance">Значение изменения баланса.</param>
+    /// <param name="updateValueMoneySpend">Значение изменения потраченных денег.</param>
+    /// <param name="updateValuePurchases">Значение изменения кол-во покупок.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    public async Task UpdateUserValuesAsync(
+        Guid userId,
+        decimal updateValueBalance,
+        decimal updateValueMoneySpend,
+        int updateValuePurchases,
+        CancellationToken cancellationToken)
+    {
+        var user = await _userRepository.GetByIdAsync(userId, cancellationToken);
+        user.UpdateValues(
+            updateValueBalance,
+            updateValueMoneySpend,
+            updateValuePurchases);
+        await _userRepository.UpdateAsync(user, cancellationToken);
+        await _userRepository.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// Получение User по идентификатору
     /// </summary>
     /// <param name="id">Идентификатор.</param>

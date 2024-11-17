@@ -1,6 +1,6 @@
 ﻿namespace MusicStoreFront.Forms
 {
-    partial class HomeForm
+    partial class StoreForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            UsernameLabel = new Label();
+            InstrumentStoreTable = new DataGridView();
             label1 = new Label();
             menuStrip1 = new MenuStrip();
             магазиныToolStripMenuItem = new ToolStripMenuItem();
@@ -36,40 +36,43 @@
             профильToolStripMenuItem = new ToolStripMenuItem();
             редактироватьПрофильToolStripMenuItem = new ToolStripMenuItem();
             выйтиИзАккаунтаToolStripMenuItem = new ToolStripMenuItem();
-            UserTopTable = new DataGridView();
+            балансПолзователяToolStripMenuItem = new ToolStripMenuItem();
+            BuyButton = new Button();
+            Amount = new NumericUpDown();
             label2 = new Label();
+            ((System.ComponentModel.ISupportInitialize)InstrumentStoreTable).BeginInit();
             menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)UserTopTable).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Amount).BeginInit();
             SuspendLayout();
             // 
-            // UsernameLabel
+            // InstrumentStoreTable
             // 
-            UsernameLabel.AutoSize = true;
-            UsernameLabel.Font = new Font("Segoe UI", 15F);
-            UsernameLabel.Location = new Point(258, 47);
-            UsernameLabel.Name = "UsernameLabel";
-            UsernameLabel.Size = new Size(299, 35);
-            UsernameLabel.TabIndex = 22;
-            UsernameLabel.Text = "*Текущий пользователь*";
+            InstrumentStoreTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            InstrumentStoreTable.Location = new Point(12, 73);
+            InstrumentStoreTable.Name = "InstrumentStoreTable";
+            InstrumentStoreTable.RowHeadersWidth = 51;
+            InstrumentStoreTable.Size = new Size(735, 213);
+            InstrumentStoreTable.TabIndex = 0;
+            InstrumentStoreTable.CellContentClick += InstrumentStoreTable_CellContentClick;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15F);
-            label1.Location = new Point(23, 47);
+            label1.Location = new Point(328, 35);
             label1.Name = "label1";
-            label1.Size = new Size(248, 35);
-            label1.TabIndex = 21;
-            label1.Text = "Добро пожаловать, ";
+            label1.Size = new Size(102, 35);
+            label1.TabIndex = 1;
+            label1.Text = "Товары";
             // 
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { магазиныToolStripMenuItem, вашиЗаказыToolStripMenuItem, профильToolStripMenuItem, выйтиИзАккаунтаToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { магазиныToolStripMenuItem, вашиЗаказыToolStripMenuItem, профильToolStripMenuItem, выйтиИзАккаунтаToolStripMenuItem, балансПолзователяToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(589, 28);
-            menuStrip1.TabIndex = 24;
+            menuStrip1.Size = new Size(757, 28);
+            menuStrip1.TabIndex = 2;
             menuStrip1.Text = "menuStrip1";
             // 
             // магазиныToolStripMenuItem
@@ -108,46 +111,63 @@
             выйтиИзАккаунтаToolStripMenuItem.Text = "Выйти из аккаунта";
             выйтиИзАккаунтаToolStripMenuItem.Click += выйтиИзАккаунтаToolStripMenuItem_Click;
             // 
-            // UserTopTable
+            // балансПолзователяToolStripMenuItem
             // 
-            UserTopTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            UserTopTable.Location = new Point(23, 134);
-            UserTopTable.Name = "UserTopTable";
-            UserTopTable.RowHeadersWidth = 51;
-            UserTopTable.Size = new Size(552, 175);
-            UserTopTable.TabIndex = 25;
+            балансПолзователяToolStripMenuItem.Name = "балансПолзователяToolStripMenuItem";
+            балансПолзователяToolStripMenuItem.Size = new Size(176, 24);
+            балансПолзователяToolStripMenuItem.Text = "*Баланс ползователя*";
+            // 
+            // BuyButton
+            // 
+            BuyButton.Location = new Point(10, 325);
+            BuyButton.Name = "BuyButton";
+            BuyButton.Size = new Size(735, 55);
+            BuyButton.TabIndex = 3;
+            BuyButton.Text = "Купить";
+            BuyButton.UseVisualStyleBackColor = true;
+            BuyButton.Click += BuyButton_Click;
+            // 
+            // Amount
+            // 
+            Amount.Location = new Point(673, 292);
+            Amount.Name = "Amount";
+            Amount.Size = new Size(72, 27);
+            Amount.TabIndex = 4;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 12F);
-            label2.Location = new Point(205, 103);
+            label2.Location = new Point(606, 299);
             label2.Name = "label2";
-            label2.Size = new Size(189, 28);
-            label2.TabIndex = 26;
-            label2.Text = "Топ пользователей";
+            label2.Size = new Size(61, 20);
+            label2.TabIndex = 5;
+            label2.Text = "Кол-во:";
             // 
-            // HomeForm
+            // StoreForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(589, 325);
+            ClientSize = new Size(757, 389);
             Controls.Add(label2);
-            Controls.Add(UserTopTable);
-            Controls.Add(UsernameLabel);
+            Controls.Add(Amount);
+            Controls.Add(BuyButton);
             Controls.Add(label1);
+            Controls.Add(InstrumentStoreTable);
             Controls.Add(menuStrip1);
-            Name = "HomeForm";
-            Text = "Домашняя страница";
+            MainMenuStrip = menuStrip1;
+            Name = "StoreForm";
+            Text = "StoreForm";
+            ((System.ComponentModel.ISupportInitialize)InstrumentStoreTable).EndInit();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)UserTopTable).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Amount).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private Label UsernameLabel;
+
+        private DataGridView InstrumentStoreTable;
         private Label label1;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem магазиныToolStripMenuItem;
@@ -155,7 +175,9 @@
         private ToolStripMenuItem профильToolStripMenuItem;
         private ToolStripMenuItem редактироватьПрофильToolStripMenuItem;
         private ToolStripMenuItem выйтиИзАккаунтаToolStripMenuItem;
-        private DataGridView UserTopTable;
+        private ToolStripMenuItem балансПолзователяToolStripMenuItem;
+        private Button BuyButton;
+        private NumericUpDown Amount;
         private Label label2;
     }
 }

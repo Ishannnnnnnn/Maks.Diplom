@@ -44,21 +44,18 @@ public class Order : BaseEntity
     /// <param name="id">Идентификатор.</param>
     /// <param name="orderDate">Дата заказа.</param>
     /// <param name="storeId">Идентификатор магазина.</param>
-    /// <param name="store">Магазин.</param>
     /// <param name="userId">Идентификатор пользователя.</param>
     /// <param name="user">Пользователь.</param>
     public Order(
         Guid id,
         DateTime orderDate,
         Guid storeId,
-        Store store,
         Guid userId,
         User user)
     {
         SetId(id);
         OrderDate = orderDate;
         StoreId = storeId;
-        Store = store;
         UserId = userId;
         User = user;
         

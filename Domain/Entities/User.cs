@@ -140,6 +140,27 @@ public class User : BaseEntity
         return this;
     }
 
+    /// <summary>
+    /// Обновление баланса пользователя
+    /// </summary>
+    /// <param name="updateValueBalance">Значение изменения баланса.</param>
+    /// <param name="updateValueMoneySpend">Значение изменения потраченных денег.</param>
+    /// <param name="updateValuePurchases">Значение изменения кол-во покупок.</param>
+    /// <returns>Пользователь с новым балансом.</returns>
+    public User UpdateValues(
+        decimal updateValueBalance,
+        decimal updateValueMoneySpend,
+        int updateValuePurchases)
+    {
+        Balance += updateValueBalance;
+        MoneySpend = updateValueMoneySpend;
+        Purchases = updateValuePurchases;
+        
+        Validate();
+
+        return this;
+    }
+
     public void Validate()
     {
         var validator = new UserValidator();

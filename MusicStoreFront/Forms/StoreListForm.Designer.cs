@@ -95,6 +95,7 @@
             StoresTable.RowHeadersWidth = 51;
             StoresTable.Size = new Size(776, 394);
             StoresTable.TabIndex = 1;
+            StoresTable.CellContentClick += StoresTable_CellContentClick;
             // 
             // AddStoreAdminButton
             // 

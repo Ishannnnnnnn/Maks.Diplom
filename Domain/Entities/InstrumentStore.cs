@@ -59,6 +59,43 @@ public class InstrumentStore : BaseEntity
         
         Validate();
     }
+
+    /// <param name="instrumentId">Идентификатор инструмента.</param>
+    /// <param name="instrument">Инструмент.</param>
+    /// <param name="storeId">Идентификатор магазина.</param>
+    /// <param name="store">Магазин.</param>
+    /// <param name="amount">Кол-во инструментов в магазине.</param>
+    public InstrumentStore Update(
+        Guid instrumentId,
+        Instrument instrument,
+        Guid storeId,
+        Store store,
+        int amount)
+    {
+        InstrumentId = instrumentId;
+        Instrument = instrument;
+        StoreId = storeId;
+        Store = store;
+        Amount = amount;
+        
+        Validate();
+
+        return this;
+    }
+
+    /// <summary>
+    /// Обновление количества инструментов
+    /// </summary>
+    /// <param name="updateValue">Значение изменения.</param>
+    /// <returns>InstrumentStore</returns>
+    public InstrumentStore UpdateInstrumentAmount(int updateValue)
+    {
+        Amount += updateValue;
+        
+        Validate();
+
+        return this;
+    }
     
     private void Validate()
     {
