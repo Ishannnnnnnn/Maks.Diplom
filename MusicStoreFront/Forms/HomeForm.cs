@@ -12,6 +12,7 @@ namespace MusicStoreFront.Forms
         private readonly OrderService _orderService;
         private readonly InstrumentService _instrumentService;
         private readonly StoreService _storeService;
+        private readonly EmailService _emailService;
         
         private readonly OrderInstrumentService _orderInstrumentService;
         private readonly InstrumentStoreService _instrumentStoreService;
@@ -29,12 +30,14 @@ namespace MusicStoreFront.Forms
             InstrumentStoreService instrumentStoreService,
             InstrumentService instrumentService,
             StoreService storeService,
+            EmailService emailService,
             CancellationToken cancellationToken)
         {
             _userService = userService;
             _orderService = orderService;
             _instrumentService = instrumentService;
             _storeService = storeService;
+            _emailService = emailService;
             
             _orderInstrumentService = orderInstrumentService;
             _instrumentStoreService = instrumentStoreService;
@@ -43,9 +46,8 @@ namespace MusicStoreFront.Forms
 
             _jwt = jwt;
             GetCurrentUser(jwt, _cancellationToken);
-            GetTopUsers(_cancellationToken);
-
             InitializeComponent();
+            GetTopUsers(_cancellationToken);
         }
 
         /// <summary>
@@ -94,6 +96,7 @@ namespace MusicStoreFront.Forms
                 _instrumentStoreService,
                 _instrumentService,
                 _storeService,
+                _emailService,
                 _cancellationToken);
             storeListForm.Show();
             Hide();
@@ -112,6 +115,7 @@ namespace MusicStoreFront.Forms
                 _instrumentStoreService,
                 _instrumentService,
                 _storeService,
+                _emailService,
                 _cancellationToken);
             myPurchasesForm.Show();
             Hide();
@@ -128,6 +132,7 @@ namespace MusicStoreFront.Forms
                 _orderService,
                 _orderInstrumentService,
                 _instrumentStoreService,
+                _emailService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -146,6 +151,7 @@ namespace MusicStoreFront.Forms
                 _orderService,
                 _orderInstrumentService,
                 _instrumentStoreService,
+                _emailService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -164,6 +170,7 @@ namespace MusicStoreFront.Forms
                 _instrumentStoreService,
                 _instrumentService,
                 _storeService,
+                _emailService,
                 _cancellationToken);
             loginForm.Show();
             Hide();

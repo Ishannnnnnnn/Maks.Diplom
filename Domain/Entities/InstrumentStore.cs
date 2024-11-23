@@ -97,6 +97,20 @@ public class InstrumentStore : BaseEntity
         return this;
     }
     
+    /// <summary>
+    /// Обновление количества инструментов
+    /// </summary>
+    /// <param name="updateValue">Значение изменения.</param>
+    /// <returns>InstrumentStore</returns>
+    public InstrumentStore UpdateValueAmount(int updateValue)
+    {
+        Amount += updateValue;
+        
+        Validate();
+
+        return this;
+    }
+    
     private void Validate()
     {
         var validator = new InstrumentStoreValidator();

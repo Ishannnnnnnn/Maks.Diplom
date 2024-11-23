@@ -37,6 +37,7 @@
             StoresTable = new DataGridView();
             AddStoreAdminButton = new Button();
             DeleteStoreAdminButton = new Button();
+            CreateInstrumentButton = new Button();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)StoresTable).BeginInit();
             SuspendLayout();
@@ -110,7 +111,7 @@
             // DeleteStoreAdminButton
             // 
             DeleteStoreAdminButton.BackColor = Color.FromArgb(255, 128, 128);
-            DeleteStoreAdminButton.Location = new Point(14, 480);
+            DeleteStoreAdminButton.Location = new Point(14, 519);
             DeleteStoreAdminButton.Name = "DeleteStoreAdminButton";
             DeleteStoreAdminButton.Size = new Size(775, 29);
             DeleteStoreAdminButton.TabIndex = 3;
@@ -118,11 +119,22 @@
             DeleteStoreAdminButton.UseVisualStyleBackColor = false;
             DeleteStoreAdminButton.Click += DeleteStoreAdminButton_Click;
             // 
+            // CreateInstrumentButton
+            // 
+            CreateInstrumentButton.Location = new Point(14, 484);
+            CreateInstrumentButton.Name = "CreateInstrumentButton";
+            CreateInstrumentButton.Size = new Size(775, 29);
+            CreateInstrumentButton.TabIndex = 4;
+            CreateInstrumentButton.Text = "Завести новый инструмент на склад\r\n";
+            CreateInstrumentButton.UseVisualStyleBackColor = true;
+            CreateInstrumentButton.Click += CreateInstrumentButton_Click;
+            // 
             // StoreListForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 513);
+            ClientSize = new Size(800, 560);
+            Controls.Add(CreateInstrumentButton);
             Controls.Add(DeleteStoreAdminButton);
             Controls.Add(AddStoreAdminButton);
             Controls.Add(StoresTable);
@@ -148,5 +160,6 @@
         private DataGridView StoresTable;
         private Button AddStoreAdminButton;
         private Button DeleteStoreAdminButton;
+        private Button CreateInstrumentButton;
     }
 }

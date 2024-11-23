@@ -10,13 +10,16 @@ namespace MusicStoreFront.Forms
         private readonly OrderService _orderService;
         private readonly CancellationToken _cancellationToken;
         private readonly Guid _orderId;
+        private readonly EmailService _emailService;
         
         public OrderDetailsForm(
             OrderService orderService,
             Guid orderId,
+            EmailService emailService,
             CancellationToken cancellationToken)
         {
             _orderService = orderService;
+            _emailService = emailService;
             _cancellationToken = cancellationToken;
             _orderId = orderId;
             

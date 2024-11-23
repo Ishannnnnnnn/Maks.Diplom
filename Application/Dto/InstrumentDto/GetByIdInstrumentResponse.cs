@@ -9,4 +9,9 @@ public class GetByIdInstrumentResponse : BaseInstrumentDto
     /// Идентификатор
     /// </summary>
     public Guid Id { get; init; }
+    
+    /// <summary>
+    /// Картинка
+    /// </summary>
+    public string ImageUrl { get; init; }
 }

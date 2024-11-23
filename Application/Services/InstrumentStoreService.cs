@@ -55,6 +55,23 @@ public class InstrumentStoreService
     }
     
     /// <summary>
+    /// Обновление кол-ва инструментов в магазине
+    /// </summary>
+    /// <param name="instrumentStoreId">Идентификатор InstrumentStore.</param>
+    /// <param name="updateValue">Значение изменения.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    public async Task UpdateInstrumentAmountValueAsync(
+        Guid instrumentStoreId,
+        int updateValue,
+        CancellationToken cancellationToken)
+    {
+        var instrumentStore = await _instrumentStoreRepository.GetByIdAsync(instrumentStoreId, cancellationToken);
+        instrumentStore.UpdateValueAmount(updateValue);
+        await _instrumentStoreRepository.UpdateAsync(instrumentStore, cancellationToken);
+        await _instrumentStoreRepository.SaveChangesAsync(cancellationToken);
+    }
+    
+    /// <summary>
     /// Удаление InstrumentStore
     /// </summary>
     /// <param name="id">Идентификатор.</param>
@@ -77,6 +94,20 @@ public class InstrumentStoreService
     {
         var instrumentStore = await GetByIdOrThrowAsync(id, cancellationToken);
         return _mapper.Map<GetByIdInstrumentStoreResponse>(instrumentStore);
+    }
+    
+    /// <summary>
+    /// Получение InstrumentStore по идентификатору Instrument
+    /// </summary>
+    /// <param name="id">Идентификатор.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>InstrumentStore.</returns>
+    public async Task<bool> GetByInstrumentIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var instrumentStore = await _instrumentStoreRepository.GetByInstrumentIdAsync(id, cancellationToken);
+        if (instrumentStore != null)
+            return true;
+        return false;
     }
 
     /// <summary>

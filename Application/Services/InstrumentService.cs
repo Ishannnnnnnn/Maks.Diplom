@@ -38,7 +38,6 @@ public class InstrumentService
         CancellationToken cancellationToken)
     {
         var instrument = _mapper.Map<Instrument>(instrumentRequest);
-        
         instrument.ImageUrl = await _googleCloudService.UploadFileAsync(fileStream, fileName, contentType);
         
         var createdInstrument = await _instrumentRepository.AddAsync(instrument, cancellationToken);
@@ -54,10 +53,7 @@ public class InstrumentService
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
         var instrument = await GetByIdOrThrowAsync(id, cancellationToken);
-        
-        var oldFileUrl = instrument.ImageUrl;
-        var uri = new Uri(oldFileUrl);
-        await _googleCloudService.DeleteFileAsync(Path.GetFileName(uri.AbsolutePath));
+        await _googleCloudService.DeleteFileAsync(instrument.ImageUrl.Split("/").Last());
         
         await _instrumentRepository.DeleteAsync(instrument, cancellationToken); 
         await _instrumentRepository.SaveChangesAsync(cancellationToken);
@@ -67,31 +63,18 @@ public class InstrumentService
     /// Обновление Instrument
     /// </summary>
     /// <param name="instrumentRequest">Instrument на обновление.</param>
-    /// <param name="fileStream">Стрим файла.</param>
-    /// <param name="fileName">Название файла.</param>
-    /// <param name="contentType">Тип файла.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Обновленный Instrument.</returns>
     public async Task<UpdateInstrumentResponse> UpdateAsync(
         UpdateInstrumentRequest instrumentRequest,
-        Stream fileStream,
-        string fileName,
-        string contentType,
         CancellationToken cancellationToken)
     {
         var instrument = await GetByIdOrThrowAsync(instrumentRequest.Id, cancellationToken);
-        
-        var oldFileUrl = instrument.ImageUrl;
-        var uri = new Uri(oldFileUrl);
-        await _googleCloudService.DeleteFileAsync(Path.GetFileName(uri.AbsolutePath));
-        
-        var newImageUrl = await _googleCloudService.UploadFileAsync(fileStream, fileName, contentType);
 
         instrument.Update(
             instrumentRequest.Name,
             instrumentRequest.Category,
-            instrumentRequest.Price,
-            newImageUrl);
+            instrumentRequest.Price);
         
         await _instrumentRepository.UpdateAsync(instrument, cancellationToken);
         await _instrumentRepository.SaveChangesAsync(cancellationToken);

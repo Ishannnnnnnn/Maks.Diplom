@@ -22,6 +22,9 @@ public interface IInstrumentStoreRepository : IRepository<InstrumentStore>
     /// <returns>Обновленный InstrumentStore.</returns>
     public Task<InstrumentStore> UpdateAsync(InstrumentStore instrumentStore, CancellationToken cancellationToken);
 
+    public Task<InstrumentStore> GetByInstrumentIdAsync(Guid id, CancellationToken cancellationToken);
+    
+    
     /// <summary>
     /// Получение всех InstrumentStore для конкретного магазина
     /// </summary>

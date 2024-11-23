@@ -133,9 +133,7 @@ public class UserService
     {
         var user = await GetByIdOrThrowAsync(userRequest.Id, cancellationToken);
         
-        var oldFileUrl = user.AvatarUrl;
-        var uri = new Uri(oldFileUrl);
-        await _googleCloudService.DeleteFileAsync(Path.GetFileName(uri.AbsolutePath));
+        await _googleCloudService.DeleteFileAsync(user.AvatarUrl.Split("/").Last());
         
         var newAvatarUrl = await _googleCloudService.UploadFileAsync(fileStream, fileName, contentType);
 

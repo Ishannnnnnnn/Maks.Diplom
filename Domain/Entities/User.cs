@@ -153,8 +153,8 @@ public class User : BaseEntity
         int updateValuePurchases)
     {
         Balance += updateValueBalance;
-        MoneySpend = updateValueMoneySpend;
-        Purchases = updateValuePurchases;
+        MoneySpend += updateValueMoneySpend;
+        Purchases += updateValuePurchases;
         
         Validate();
 

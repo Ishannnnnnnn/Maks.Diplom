@@ -13,6 +13,7 @@ namespace MusicStoreFront.Forms
         private readonly OrderService _orderService;
         private readonly InstrumentService _instrumentService;
         private readonly StoreService _storeService;
+        private readonly EmailService _emailService;
 
         private readonly OrderInstrumentService _orderInstrumentService;
         private readonly InstrumentStoreService _instrumentStoreService;
@@ -30,6 +31,7 @@ namespace MusicStoreFront.Forms
             InstrumentStoreService instrumentStoreService,
             InstrumentService instrumentService,
             StoreService storeService,
+            EmailService emailService,
             CancellationToken cancellationToken)
         {
             _jwt = jwt;
@@ -40,6 +42,7 @@ namespace MusicStoreFront.Forms
 
             _orderInstrumentService = orderInstrumentService;
             _instrumentStoreService = instrumentStoreService;
+            _emailService = emailService;
 
             _cancellationToken = cancellationToken;
 
@@ -56,18 +59,20 @@ namespace MusicStoreFront.Forms
             {
                 AddStoreAdminButton.Visible = true;
                 DeleteStoreAdminButton.Visible = true;
+                CreateInstrumentButton.Visible = true;
             }
             else
             {
                 AddStoreAdminButton.Visible = false;
                 DeleteStoreAdminButton.Visible = false;
+                CreateInstrumentButton.Visible = false;
             }
         }
 
         /// <summary>
         /// Загрузка всех магазинов
         /// </summary>
-        private async Task LoadStores(CancellationToken cancellationToken)
+        public async Task LoadStores(CancellationToken cancellationToken)
         {
             var storesResponse = await _storeService.GetAllAsync(cancellationToken);
             var storesData = storesResponse.Select(store => new
@@ -81,7 +86,7 @@ namespace MusicStoreFront.Forms
 
             StoresTable.DataSource = storesData;
         }
-        
+
         /// <summary>
         /// Переход в магазин
         /// </summary>
@@ -93,16 +98,18 @@ namespace MusicStoreFront.Forms
             var storeId = (Guid)selectedRow.Cells["StoreId"].Value;
 
             var storeForm = new StoreForm(
-                _jwt, 
+                _jwt,
                 _userService,
                 _orderService,
                 _orderInstrumentService,
                 _instrumentStoreService,
                 _instrumentService,
                 _storeService,
+                _emailService,
                 storeId,
                 _cancellationToken);
-            storeForm.ShowDialog();
+            storeForm.Show();
+            Hide();
         }
 
         /// <summary>
@@ -118,6 +125,7 @@ namespace MusicStoreFront.Forms
                 _instrumentStoreService,
                 _instrumentService,
                 _storeService,
+                _emailService,
                 _cancellationToken);
             homeForm.Show();
             Hide();
@@ -136,6 +144,7 @@ namespace MusicStoreFront.Forms
                 _instrumentStoreService,
                 _instrumentService,
                 _storeService,
+                _emailService,
                 _cancellationToken);
             myPurchasesForm.Show();
             Hide();
@@ -152,6 +161,7 @@ namespace MusicStoreFront.Forms
                 _orderService,
                 _orderInstrumentService,
                 _instrumentStoreService,
+                _emailService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -170,6 +180,7 @@ namespace MusicStoreFront.Forms
                 _orderService,
                 _orderInstrumentService,
                 _instrumentStoreService,
+                _emailService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -188,6 +199,7 @@ namespace MusicStoreFront.Forms
                 _instrumentStoreService,
                 _instrumentService,
                 _storeService,
+                _emailService,
                 _cancellationToken);
             loginForm.Show();
             Hide();
@@ -198,15 +210,28 @@ namespace MusicStoreFront.Forms
         /// </summary>
         private void AddStoreAdminButton_Click(object sender, EventArgs e)
         {
-
+            var storeAddForm = new StoreAddForm(
+                _storeService,
+                this,
+                _emailService,
+                _cancellationToken);
+            storeAddForm.ShowDialog();
         }
 
         /// <summary>
         /// Удаление магазина
         /// </summary>
-        private void DeleteStoreAdminButton_Click(object sender, EventArgs e)
+        private async void DeleteStoreAdminButton_Click(object sender, EventArgs e)
         {
+            var selectedRow = StoresTable.SelectedRows.Cast<DataGridViewRow>().FirstOrDefault();
 
+            if (selectedRow == null)
+                MessageBox.Show(@"Пожалуйста, выберите магазин для удаления.");
+
+            var storeId = (Guid)selectedRow?.Cells["StoreId"].Value;
+            await _storeService.DeleteAsync(storeId, _cancellationToken);
+            MessageBox.Show(@"Магазин удален");
+            await LoadStores(_cancellationToken);
         }
 
         /// <summary>
@@ -217,6 +242,15 @@ namespace MusicStoreFront.Forms
         private async Task GetCurrentUser(string jwt, CancellationToken cancellationToken)
         {
             _currentUser = await _userService.DecodeJwtToken(jwt, cancellationToken);
+        }
+
+        /// <summary>
+        /// Добавление инструмента на склад
+        /// </summary>
+        private void CreateInstrumentButton_Click(object sender, EventArgs e)
+        {
+            var instrumentAddForm = new InstrumentAddForm(_instrumentService, _cancellationToken);
+            instrumentAddForm.ShowDialog();
         }
     }
 }

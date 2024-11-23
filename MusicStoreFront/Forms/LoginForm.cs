@@ -12,6 +12,7 @@ public partial class LoginForm : Form
     private readonly OrderService _orderService;
     private readonly InstrumentService _instrumentService;
     private readonly StoreService _storeService;
+    private readonly EmailService _emailService;
     
     private readonly OrderInstrumentService _orderInstrumentService;
     private readonly InstrumentStoreService _instrumentStoreService;
@@ -25,12 +26,14 @@ public partial class LoginForm : Form
         InstrumentStoreService instrumentStoreService,
         InstrumentService instrumentService,
         StoreService storeService,
+        EmailService emailService,
         CancellationToken cancellationToken)
     {
         _userService = userService;
         _orderService = orderService;
         _instrumentService = instrumentService;
         _storeService = storeService;
+        _emailService = emailService;
         
         _orderInstrumentService = orderInstrumentService;
         _instrumentStoreService = instrumentStoreService;
@@ -64,6 +67,7 @@ public partial class LoginForm : Form
                 _instrumentStoreService,
                 _instrumentService,
                 _storeService,
+                _emailService,
                 _cancellationToken);
             homeForm.Show();
             Hide();
@@ -82,6 +86,7 @@ public partial class LoginForm : Form
             _instrumentStoreService,
             _instrumentService,
             _storeService,
+            _emailService,
             _cancellationToken);
         registerForm.Show();
         Hide();

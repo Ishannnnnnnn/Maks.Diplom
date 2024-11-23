@@ -67,6 +67,11 @@ public class InstrumentStoreRepository : IInstrumentStoreRepository
     {
         return await _dbContext.InstrumentStores.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
+    
+    public async Task<InstrumentStore?> GetByInstrumentIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _dbContext.InstrumentStores.FirstOrDefaultAsync(p => p.InstrumentId == id, cancellationToken);
+    }
 
     /// <summary>
     /// Получение всех

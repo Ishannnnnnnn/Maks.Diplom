@@ -1,5 +1,6 @@
 ﻿using Application.Services;
 using Domain.Entities;
+using Domain.Primitives;
 
 namespace MusicStoreFront.Forms
 {
@@ -12,7 +13,8 @@ namespace MusicStoreFront.Forms
         private readonly OrderService _orderService;
         private readonly InstrumentService _instrumentService;
         private readonly StoreService _storeService;
-        
+        private readonly EmailService _emailService;
+
         private readonly OrderInstrumentService _orderInstrumentService;
         private readonly InstrumentStoreService _instrumentStoreService;
 
@@ -27,6 +29,7 @@ namespace MusicStoreFront.Forms
             OrderService orderService,
             OrderInstrumentService orderInstrumentService,
             InstrumentStoreService instrumentStoreService,
+            EmailService emailService,
             InstrumentService instrumentService,
             StoreService storeService,
             CancellationToken cancellationToken)
@@ -35,7 +38,8 @@ namespace MusicStoreFront.Forms
             _orderService = orderService;
             _instrumentService = instrumentService;
             _storeService = storeService;
-            
+            _emailService = emailService;
+
             _orderInstrumentService = orderInstrumentService;
             _instrumentStoreService = instrumentStoreService;
 
@@ -45,6 +49,7 @@ namespace MusicStoreFront.Forms
             GetCurrentUser(jwt, _cancellationToken);
 
             InitializeComponent();
+            AddBalanceButton.Visible = true;
         }
 
         /// <summary>
@@ -58,6 +63,7 @@ namespace MusicStoreFront.Forms
                 _orderService,
                 _orderInstrumentService,
                 _instrumentStoreService,
+                _emailService,
                 _instrumentService,
                 _storeService,
                 _cancellationToken);
@@ -81,6 +87,7 @@ namespace MusicStoreFront.Forms
                 _instrumentStoreService,
                 _instrumentService,
                 _storeService,
+                _emailService,
                 _cancellationToken);
             loginForm.Show();
             Hide();
@@ -100,6 +107,9 @@ namespace MusicStoreFront.Forms
             RegistrationDateLabel.Text = _currentUser?.RegistrationDate.ToString();
             AvatarPictureBox.LoadAsync(_currentUser?.AvatarUrl);
             AvatarPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+
+            if (_currentUser.Role == Role.Owner)
+                AddBalanceButton.Visible = false;
         }
 
         /// <summary>
@@ -115,6 +125,7 @@ namespace MusicStoreFront.Forms
                 _instrumentStoreService,
                 _instrumentService,
                 _storeService,
+                _emailService,
                 _cancellationToken);
             homeForm.Show();
             Hide();
@@ -133,6 +144,7 @@ namespace MusicStoreFront.Forms
                 _instrumentStoreService,
                 _instrumentService,
                 _storeService,
+                _emailService,
                 _cancellationToken);
             storeListForm.Show();
             Hide();
@@ -151,6 +163,7 @@ namespace MusicStoreFront.Forms
                 _instrumentStoreService,
                 _instrumentService,
                 _storeService,
+                _emailService,
                 _cancellationToken);
             myPurchasesForm.Show();
             Hide();
@@ -168,8 +181,28 @@ namespace MusicStoreFront.Forms
                 _instrumentStoreService,
                 _instrumentService,
                 _storeService,
+                _emailService,
                 _cancellationToken);
             loginForm.Show();
+            Hide();
+        }
+
+        /// <summary>
+        /// Переход на форму пополнения баланса
+        /// </summary>
+        private void AddBalanceButton_Click(object sender, EventArgs e)
+        {
+            var addBalanceForm = new AddBalanceForm(
+                _jwt,
+                _userService,
+                _orderService,
+                _orderInstrumentService,
+                _instrumentStoreService,
+                _instrumentService,
+                _storeService,
+                _emailService,
+                _cancellationToken);
+            addBalanceForm.Show();
             Hide();
         }
     }

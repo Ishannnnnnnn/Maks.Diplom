@@ -66,25 +66,22 @@ public class Instrument : BaseEntity
     /// <param name="name">Название.</param>
     /// <param name="category">Категория.</param>
     /// <param name="price">Цена.</param>
-    /// <param name="newImageUrl">Новое изображение.</param>
     /// <returns>Обновленный Instrument.</returns>
     public Instrument Update(
         string name,
         Category category,
-        decimal price,
-        string newImageUrl)
+        decimal price)
     {
         Name = name;
         Category = category;
         Price = price;
-        ImageUrl = newImageUrl;
         
         Validate();
         
         return this;
     }
-    
-    private void Validate()
+
+    public void Validate()
     {
         var validator = new InstrumentValidator();
         var result = validator.Validate(this);

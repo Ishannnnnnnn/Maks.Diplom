@@ -1,3 +1,4 @@
+using Application;
 using Application.Interfaces;
 using Application.Mapping;
 using Application.Services;
@@ -5,7 +6,9 @@ using AutoMapper;
 using Infrastructure.Dal;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using MusicStoreFront.Forms;
 
 namespace MusicStoreFront
@@ -19,22 +22,29 @@ namespace MusicStoreFront
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
 
+            var serviceCollection = new ServiceCollection();
+            
+            var configurationBuilder = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            var configuration = configurationBuilder.Build();
+            
+            ConfigureServices(serviceCollection, configuration);
+            
             using var serviceProvider = serviceCollection.BuildServiceProvider();
             using var scope = serviceProvider.CreateScope();
+            
             var userService = scope.ServiceProvider.GetRequiredService<UserService>();
             var orderService = scope.ServiceProvider.GetRequiredService<OrderService>();
             var instrumentService = scope.ServiceProvider.GetRequiredService<InstrumentService>();
             var storeService = scope.ServiceProvider.GetRequiredService<StoreService>();
-            
+            var emailService = scope.ServiceProvider.GetRequiredService<EmailService>();
             var orderInstrumentService = scope.ServiceProvider.GetRequiredService<OrderInstrumentService>();
             var instrumentStoreService = scope.ServiceProvider.GetRequiredService<InstrumentStoreService>();
 
             CancellationToken cancellationToken = new CancellationToken();
-                    
+            
             System.Windows.Forms.Application.Run(new LoginForm(
                 userService,
                 orderService,
@@ -42,11 +52,14 @@ namespace MusicStoreFront
                 instrumentStoreService,
                 instrumentService,
                 storeService,
+                emailService,
                 cancellationToken));
         }
         
-        private static void ConfigureServices(ServiceCollection services)
+        private static void ConfigureServices(ServiceCollection services, IConfiguration configuration)
         {
+            services.AddSingleton(configuration);
+            
             services.AddDbContext<MusicStoreDbContext>(options =>
                 options.UseNpgsql("Host=localhost;Port=5432;Database=MusicStore;Username=postgres;Password=7733"),
                 ServiceLifetime.Transient);
@@ -71,10 +84,13 @@ namespace MusicStoreFront
             services.AddTransient<OrderService>();
             services.AddTransient<InstrumentService>();
             services.AddTransient<StoreService>();
+            services.AddTransient<EmailService>();
             
             services.AddTransient<OrderInstrumentService>();
             services.AddTransient<InstrumentStoreService>();
             services.AddTransient<GoogleCloudService>();
+            
+            services.Configure<SmtpSettings>(configuration.GetSection("SmtpSettings"));
             
             var secretKey = "MISTRESS OF THE BLEEDING SORROW IS THE BEST DISSECTION SONG";
             services.AddTransient<UserService>(provider =>

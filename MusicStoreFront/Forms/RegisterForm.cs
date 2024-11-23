@@ -18,6 +18,8 @@ namespace MusicStoreFront.Forms
         private readonly OrderService _orderService;
         private readonly InstrumentService _instrumentService;
         private readonly StoreService _storeService;
+        private readonly EmailService _emailService;
+
         
         private readonly OrderInstrumentService _orderInstrumentService;
         private readonly InstrumentStoreService _instrumentStoreService;
@@ -27,7 +29,6 @@ namespace MusicStoreFront.Forms
         
         private string _avatarUrl;
         private string _avatarFilePath;
-        private readonly Guid _newFileId;
 
         public RegisterForm(
             UserService userService,
@@ -36,18 +37,19 @@ namespace MusicStoreFront.Forms
             InstrumentStoreService instrumentStoreService,
             InstrumentService instrumentService,
             StoreService storeService,
+            EmailService emailService,
             CancellationToken cancellationToken)
         {
             _userService = userService;
             _orderService = orderService;
             _instrumentService = instrumentService;
             _storeService = storeService;
+            _emailService = emailService;
             
             _orderInstrumentService = orderInstrumentService;
             _instrumentStoreService = instrumentStoreService;
             
             _cancellationToken = cancellationToken;
-            _newFileId = Guid.NewGuid();
             
             var config = new MapperConfiguration(cfg =>
             {
@@ -83,22 +85,27 @@ namespace MusicStoreFront.Forms
                 if (!string.IsNullOrEmpty(_avatarFilePath))
                 {
                     var contentType = GetContentType(_avatarFilePath);
-                    var fileName = _newFileId.ToString();
+                    var fileName = Guid.NewGuid().ToString();
 
                     await using var fileStream = new FileStream(_avatarFilePath, FileMode.Open, FileAccess.Read);
-                    await _userService.AddAsync(newUser, fileStream, fileName, contentType, _cancellationToken);
-                    
-                    MessageBox.Show(@"Регистрация успешна");
-                    var loginForm = new LoginForm(
-                        _userService,
-                        _orderService,
-                        _orderInstrumentService,
-                        _instrumentStoreService,
-                        _instrumentService,
-                        _storeService,
-                        _cancellationToken);
-                    loginForm.Show();
-                    Hide();
+                    var isExist = await _userService.AddAsync(newUser, fileStream, fileName, contentType, _cancellationToken);
+                    if (isExist == null)
+                        MessageBox.Show(@"Пользователь с данной почтой уже существует");
+                    else
+                    {
+                        MessageBox.Show(@"Регистрация успешна");
+                        var loginForm = new LoginForm(
+                            _userService,
+                            _orderService,
+                            _orderInstrumentService,
+                            _instrumentStoreService,
+                            _instrumentService,
+                            _storeService,
+                            _emailService,
+                            _cancellationToken);
+                        loginForm.Show();
+                        Hide();
+                    }
                 }
                 else
                 {
@@ -139,6 +146,7 @@ namespace MusicStoreFront.Forms
                 _instrumentStoreService,
                 _instrumentService,
                 _storeService,
+                _emailService,
                 _cancellationToken);
             loginForm.Show();
             Hide();

@@ -44,6 +44,7 @@
             магазиныToolStripMenuItem = new ToolStripMenuItem();
             вашиЗаказыToolStripMenuItem = new ToolStripMenuItem();
             выйтиИзАккаунтаToolStripMenuItem = new ToolStripMenuItem();
+            AddBalanceButton = new Button();
             ((System.ComponentModel.ISupportInitialize)AvatarPictureBox).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -151,9 +152,9 @@
             // DeleteUserButton
             // 
             DeleteUserButton.BackColor = Color.LightCoral;
-            DeleteUserButton.Location = new Point(19, 251);
+            DeleteUserButton.Location = new Point(20, 251);
             DeleteUserButton.Name = "DeleteUserButton";
-            DeleteUserButton.Size = new Size(608, 29);
+            DeleteUserButton.Size = new Size(425, 29);
             DeleteUserButton.TabIndex = 13;
             DeleteUserButton.Text = "Удалить профиль";
             DeleteUserButton.UseVisualStyleBackColor = false;
@@ -197,11 +198,22 @@
             выйтиИзАккаунтаToolStripMenuItem.Text = "Выйти из аккаунта";
             выйтиИзАккаунтаToolStripMenuItem.Click += выйтиИзАккаунтаToolStripMenuItem_Click;
             // 
+            // AddBalanceButton
+            // 
+            AddBalanceButton.Location = new Point(451, 251);
+            AddBalanceButton.Name = "AddBalanceButton";
+            AddBalanceButton.Size = new Size(176, 29);
+            AddBalanceButton.TabIndex = 15;
+            AddBalanceButton.Text = "Пополнить баланс";
+            AddBalanceButton.UseVisualStyleBackColor = true;
+            AddBalanceButton.Click += AddBalanceButton_Click;
+            // 
             // ProfileForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(641, 292);
+            ClientSize = new Size(641, 291);
+            Controls.Add(AddBalanceButton);
             Controls.Add(DeleteUserButton);
             Controls.Add(AvatarPictureBox);
             Controls.Add(RegistrationDateLabel);
@@ -241,5 +253,6 @@
         private ToolStripMenuItem магазиныToolStripMenuItem;
         private ToolStripMenuItem вашиЗаказыToolStripMenuItem;
         private ToolStripMenuItem выйтиИзАккаунтаToolStripMenuItem;
+        private Button AddBalanceButton;
     }
 }

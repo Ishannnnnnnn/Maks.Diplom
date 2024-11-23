@@ -18,6 +18,7 @@ namespace MusicStoreFront.Forms
         private readonly OrderService _orderService;
         private readonly InstrumentService _instrumentService;
         private readonly StoreService _storeService;
+        private readonly EmailService _emailService;
         
         private readonly OrderInstrumentService _orderInstrumentService;
         private readonly InstrumentStoreService _instrumentStoreService;
@@ -37,6 +38,7 @@ namespace MusicStoreFront.Forms
             OrderService orderService,
             OrderInstrumentService orderInstrumentService,
             InstrumentStoreService instrumentStoreService,
+            EmailService emailService,
             InstrumentService instrumentService,
             StoreService storeService,
             CancellationToken cancellationToken)
@@ -45,6 +47,7 @@ namespace MusicStoreFront.Forms
             _orderService = orderService;
             _instrumentService = instrumentService;
             _storeService = storeService;
+            _emailService = emailService;
             
             _orderInstrumentService = orderInstrumentService;
             _instrumentStoreService = instrumentStoreService;
@@ -102,6 +105,7 @@ namespace MusicStoreFront.Forms
                         _orderService,
                         _orderInstrumentService,
                         _instrumentStoreService,
+                        _emailService,
                         _instrumentService,
                         _storeService,
                         _cancellationToken);
