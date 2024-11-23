@@ -1,0 +1,80 @@
+using Domain.Validations.Validators.Entities;
+using FluentValidation;
+
+namespace Domain.Entities;
+
+/// <summary>
+/// Служебная таблица связи заказа и инструмента
+/// </summary>
+public class OrderInstrument : BaseEntity
+{
+    /// <summary>
+    /// Идентификатор заказа
+    /// </summary>
+    public Guid OrderId { get; set; }
+    
+    /// <summary>
+    /// Навигационное поле для Order
+    /// </summary>
+    public Order Order { get; set; }
+    
+    /// <summary>
+    /// Идентификатор инструмента
+    /// </summary>
+    public Guid InstrumentId { get; set; }
+    
+    /// <summary>
+    /// Навигационное поле для Instrument
+    /// </summary>
+    public Instrument Instrument { get; set; }
+    
+    /// <summary>
+    /// Кол-во инструментов в заказе
+    /// </summary>
+    public int Amount { get; set; }
+    
+    /// <summary>
+    /// Общая цена
+    /// </summary>
+    public decimal Price { get; set; }
+
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="id">Идентификатор.</param>
+    /// <param name="orderId">Идентификатор заказа.</param>
+    /// <param name="instrumentId">Идентификатор инструмента.</param>
+    /// <param name="amount">Кол-во инструментов в заказе.</param>
+    /// <param name="price">Общая цена.</param>
+    public OrderInstrument(
+        Guid id,
+        Guid orderId,
+        Guid instrumentId,
+        int amount,
+        decimal price)
+    {
+        SetId(id);
+        OrderId = orderId;
+        InstrumentId = instrumentId;
+        Amount = amount;
+        Price = price;
+        
+        Validate();
+    }
+    
+    private void Validate()
+    {
+        var validator = new OrderInstrumentValidator();
+        var result = validator.Validate(this);
+
+        if (!result.IsValid)
+        {
+            var errors = string.Join(" || ", result.Errors.Select(x => x.ErrorMessage));
+            throw new ValidationException(errors);
+        }
+    }
+    
+    public OrderInstrument()
+    {
+    }
+}
